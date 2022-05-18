@@ -1,0 +1,101 @@
+
+<!-- index.hbs -->
+<h1 align="center">Donors Page</h1>
+<p align="center">Displaying all registered donors</p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="./js/deletePerson.js"></script>
+
+{{!-- Create a table --}}
+<table id="people-table" border="3" cellpadding="5" align="center">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr data-value={{this.donor_id}}>
+            <td align="center">{{this.donor_id}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.email}}</td>
+            <td align="right">{{this.total_donated}}</td>
+   
+            <td><button onclick="deletePerson({{this.donor_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_person.js"></script>
+
+<!-- /views/index.hbs -->
+<h2 align="center">Adding Data using an HTML form</h2>
+<p align="center">To add a new person, please enter their information below and click `Submit`!</p>
+<form id="add-person-form" method="POST" action="/add-person-form" align="center">
+
+    <label for="input-name">Name: </label>
+    <input type="text" name="input-name" id="input-name-ajax">
+    
+    <label for="input-email">Email: </label>
+    <input type="text" name="input-email" id="input-email-ajax">
+
+    <label for="input-donated">Total Donated: </label>
+    <input type="number" name="input-donated" id="input-donated-ajax">
+
+    <input type="submit">
+</form>
+
+
+<h2 align="center" >Search Using an HTML Form</h2>
+<p align="center" >Search by last name using the field below. Partial last names are OK too!</p>
+<form id="search-person-html" method='GET' action='/' align="center">
+
+    <label for="input-name">Search by Name: </label>
+    <input type="text" name="name" id="input-name-html-search">
+    
+    <input type="submit">
+    <a href='/'><button>Reset</button></a>
+</form>
+
+
+
+<h2>Updating A User's HomeWorld Form</h2>
+<p>To update a specific user's homeworld select their name from the drop-down menu on the left and their desired homeworld from the drop down menu on the right</p>
+<form id="update-person-form-ajax">
+
+    <label for="input-fullname">Full name: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Person</option>
+        {{#each data}}
+        <option value="{{this.id}}">{{this.fname}} {{this.lname}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-homeworld">Homeworld: </label>
+    <select name="input-homeworld" id="input-homeworld-update">
+        <option>Select a Planet</option>
+        {{#each planets}}
+        <option value="{{this.id}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_person.js"></script>
+
+
+
